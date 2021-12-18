@@ -6,13 +6,21 @@
   color: white;
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
   flex-direction: column;
   padding-top: 5%;
   padding-left: 11%;
   padding-right: 11%;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.Forms{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  width: 40%;
+  font-size: medium;
 }
 
 

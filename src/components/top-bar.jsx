@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SearchBar from "./search-bar";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import logo from "../logo.png";
+import {Link} from "react-router-dom";
 
 class TopBar extends Component {
 
@@ -28,11 +29,11 @@ class TopBar extends Component {
             <div style={topBarStyle}>
                 <div class="container">
                 <nav className="navbar navbar-expand-lg navbar-dark ">
-                    <a className="navbar-brand" href="#">
+                    <Link to={"/"} className="navbar-brand" href="#">
                         <img src={logo} width="40" height="40"
                              className="d-inline-block align-top" alt=""/>
                             MovieDatabase
-                    </a>
+                    </Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
                             aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -43,7 +44,7 @@ class TopBar extends Component {
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li className="nav-item active">
-                                <a className="nav-link" href="#">Zaloguj się</a>
+                                <Link to="/signin" className="nav-link" href="#">Zaloguj się</Link>
                             </li>
                         </ul>
 

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SearchBar from "./search-bar";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import cover from "../cover.jpg";
+import {Link} from "react-router-dom";
 
 class Movie extends Component {
 
@@ -31,7 +32,7 @@ class Movie extends Component {
             <div style={movieStyle}>
                 <img style={picStyle} src={cover} className="App-logo" alt="logo" />
                 <div style={movieDescription}>
-                    <h5 style={movieTitle}>{this.props.title}</h5>
+                    <Link to="details"><h5 style={movieTitle}>{this.props.title}</h5></Link>
                     <h6>Rok produkcji: {this.props.year}</h6>
                     <h6>Reżyser: {this.props.director}</h6>
                     <h6>Liczba odwiedzin: {this.props.popularity}</h6>
