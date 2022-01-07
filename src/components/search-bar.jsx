@@ -25,23 +25,14 @@ class SearchBar extends Component {
     }
 
     render() {
-        const searchBarStyle={
-            width: "75%",
-            justifyContent: "center",
-        }
-        const labelStyle={
-            width: "90%",
-        }
-        const searchStyle={
-            paddingLeft: "5px",
-        }
-
         return (
-            <form onSubmit={this.handleSubmit} style={searchBarStyle}>
-                <label style={labelStyle}>
-                    <input class="form-control mr-sm-2" type="text" value={this.state.value} onChange={this.handleChange} />
-                </label>
-                <FaSearch size={"2em"} color={"#ffffff"} style={searchStyle}/>
+            <form onSubmit={this.handleSubmit} style={{
+                display: 'flex',
+                flexDirection: 'row',
+                width: '30%',
+            }}>
+                <input class="form-control" type="text" placeholder="Search" value={this.state.value} onChange={this.handleChange} />
+                <button className="btn btn-outline-success my-2 my-sm-0" type="submit" onClick={()=>alert('dzialam!')}>Search</button>
             </form>
         );
     }

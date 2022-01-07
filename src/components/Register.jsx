@@ -4,25 +4,73 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Content from "./content";
 import Footer from "./Footer";
 import {Link} from "react-router-dom";
+const axios = require('axios');
 
 class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {value: ''};
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    state = {
+        account: {
+            username: "",
+            email: "",
+            password: ""
+        },
+        errors: {}
+    };
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
+    handleChangeRoute = () => {
+        this.props.history.push('/');
+        window.location.reload();
+    };
 
-    handleSubmit(event) {
-        alert('Podano następujące imię: ' + this.state.value);
+    validate = () => {
+        const errors = {};
+
+        const {account} = this.state;
+        if (account.username.trim() === '') {
+            errors.username = 'Username is required!';
+        }
+        if (account.email.trim() === '') {
+            errors.password = 'Email is required!';
+        }
+        if (account.password.trim() === '') {
+            errors.password = 'Password is required!';
+        }
+
+        return Object.keys(errors).length === 0 ? null : errors;
+    };
+
+    handleSubmit = (event) => {
         event.preventDefault();
-    }
 
+        const errors = this.validate();
+        this.setState({errors: errors || {}});
+        if (errors) return;
+
+        console.log(this.state)
+
+        axios({
+            method: 'post',
+            url: 'https://pr-movies.herokuapp.com/api/user/create',
+            data: {
+                name: this.state.account.username,
+                email: this.state.account.email,
+                password: this.state.account.password
+            }
+        }).then((response) => {
+            this.handleChangeRoute();
+        }).catch((error) => {
+            const errors = {};
+            errors.password = 'Given username does\'t exists or password is wrong!';
+            this.setState({errors: errors || {}});
+            console.log(error);
+        });
+    };
+
+    handleChange = (event) => {
+        const account = {...this.state.account};
+        account[event.currentTarget.name] = event.currentTarget.value;
+        this.setState({account});
+    };
 
     render(){
         return (
@@ -30,21 +78,17 @@ class Login extends React.Component {
                 <TopBar/>
                 <div className="Content">
                     <div className="Forms">
-                        <form>
+                        <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
-                                <input type="text" className="form-control" id="exampleInputEmail1"
+                                <input value={this.state.account.username} name="username" onChange={this.handleChange} type="text" className="form-control" id="username"
                                        aria-describedby="emailHelp" placeholder="Login"/>
                             </div>
                             <div className="form-group">
-                                <input type="text" className="form-control" id="exampleInputPassword1"
-                                       placeholder="Nazwa" />
-                            </div>
-                            <div className="form-group">
-                                <input type="email" className="form-control" id="exampleInputPassword1"
+                                <input value={this.state.account.email} name="email" onChange={this.handleChange} type="email" className="form-control" id="email"
                                        placeholder="E-mail" />
                             </div>
                             <div className="form-group">
-                                <input type="password" className="form-control" id="exampleInputPassword1"
+                                <input value={this.state.account.password} name="password" onChange={this.handleChange} type="password" className="form-control" id="password"
                                        placeholder="Hasło" />
                             </div>
                             <div className="form-check">

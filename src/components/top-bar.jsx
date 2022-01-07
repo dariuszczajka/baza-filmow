@@ -3,58 +3,52 @@ import SearchBar from "./search-bar";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import logo from "../logo.png";
 import {Link} from "react-router-dom";
+import { isExpired, decodeToken  } from "react-jwt";
 
-class TopBar extends Component {
+const TopBar = () => {
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    const user = (decodeToken(localStorage.getItem('token')));
+    const isNotLogged = (isExpired(localStorage.getItem('token')));
+
+    const links = {
+        paddingLeft: '15px',
     }
 
-    handleSubmit(event) {
-        alert('Zapytanie: ' + this.state.value);
-        event.preventDefault();
+    const loginStyle = {
+        display: 'flex',
+        flexDirection: 'row',
     }
 
+    return(
+        <div>
+            <nav className="navbar navbar-dark" style={{
+                backgroundColor: "#323232",
+                display: 'flex',
+                justifyContent: 'space-evenly',
+                width: '100%',
+            }}>
+                <Link to={"/"} className="navbar-brand" href="#">
+                    <img src={logo} width="40" height="40"
+                         className="d-inline-block align-top" alt=""/>
+                    MovieDatabase
+                </Link>
 
-    render(){
-        const topBarStyle= {
-            backgroundColor: "#323232",
-        }
-        const test={
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        }
-        return(
-            <div style={topBarStyle}>
-                <div class="container">
-                <nav className="navbar navbar-expand-lg navbar-dark ">
-                    <Link to={"/"} className="navbar-brand" href="#">
-                        <img src={logo} width="40" height="40"
-                             className="d-inline-block align-top" alt=""/>
-                            MovieDatabase
-                    </Link>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-                            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+                <SearchBar/>
 
-                    <SearchBar style={test}/>
+                <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                    {isNotLogged && <li className="nav-item active" style={loginStyle}>
+                        <Link to="/signin" style={links} className="nav-link" href="#">Zaloguj się</Link>
+                    </li>}
+                    {!isNotLogged && <li className="nav-item active" style={loginStyle}>
+                        <span style={links} className="navbar-text">Cześć, {user.name}</span>
+                        <Link to="/addMovie" style={links} className="nav-link" href="#">Dodaj nowy film</Link>
+                        <Link to="/" style={links} onClick={() => localStorage.removeItem('token')} className="nav-link" href="#">Wyloguj się</Link>
+                    </li>}
+                </ul>
 
-                    <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                        <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-                            <li className="nav-item active">
-                                <Link to="/signin" className="nav-link" href="#">Zaloguj się</Link>
-                            </li>
-                        </ul>
-
-                    </div>
-                </nav>
-                </div>
-            </div>
-
+            </nav>
+        </div>
         )
     }
 
-}
 export default TopBar;

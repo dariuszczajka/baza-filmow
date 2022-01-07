@@ -4,25 +4,67 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Content from "./content";
 import Footer from "./Footer";
 import {Link} from "react-router-dom";
+const axios = require('axios');
 
 class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {value: ''};
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    state = {
+        account: {
+            username: "",
+            password: ""
+        },
+        errors: {}
+    };
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
+    handleChangeRoute = () => {
+        this.props.history.push('/');
+        window.location.reload();
+    };
 
-    handleSubmit(event) {
-        alert('Podano następujące imię: ' + this.state.value);
+    validate = () => {
+        const errors = {};
+
+        const {account} = this.state;
+        if (account.username.trim() === '') {
+            errors.username = 'Username is required!';
+        }
+        if (account.password.trim() === '') {
+            errors.password = 'Password is required!';
+        }
+
+        return Object.keys(errors).length === 0 ? null : errors;
+    };
+
+    handleSubmit = (event) => {
         event.preventDefault();
-    }
 
+        const errors = this.validate();
+        this.setState({errors: errors || {}});
+        if (errors) return;
+
+        axios({
+            method: 'post',
+            url: 'https://pr-movies.herokuapp.com/api/user/auth',
+            data: {
+                login: this.state.account.username,
+                password: this.state.account.password
+            }
+        }).then((response) => {
+            localStorage.setItem('token', response.data.token);
+            this.handleChangeRoute();
+        }).catch((error) => {
+            const errors = {};
+            errors.password = 'Given username does\'t exists or password is wrong!';
+            this.setState({errors: errors || {}});
+            console.log(error);
+        });
+    };
+
+    handleChange = (event) => {
+        const account = {...this.state.account};
+        account[event.currentTarget.name] = event.currentTarget.value;
+        this.setState({account});
+    };
 
     render(){
         return (
@@ -30,15 +72,30 @@ class Login extends React.Component {
                 <TopBar/>
                 <div className="Content">
                     <div className="Forms">
-                        <form>
+                        <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
-                                <input type="email" className="form-control" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp" placeholder="Login"/>
+                                <input value={this.state.account.username}
+                                       name="username"
+                                       type="text"
+                                       onChange={this.handleChange}
+                                       className="form-control"
+                                       id="username"
+                                       aria-describedby="emailHelp"
+                                       placeholder="Login"/>
                             </div>
+                            {this.state.errors.username &&
+                            <div className="alert alert-danger">{this.state.errors.username}</div>}
                             <div className="form-group">
-                                <input type="password" className="form-control" id="exampleInputPassword1"
+                                <input value={this.state.account.password}
+                                       name="password"
+                                       onChange={this.handleChange}
+                                       type="password"
+                                       className="form-control"
+                                       id="password"
                                        placeholder="Hasło" />
                             </div>
+                            {this.state.errors.password &&
+                            <div className="alert alert-danger">{this.state.errors.password}</div>}
                             <div className="form-check">
                                 <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
                                 <label className="form-check-label" htmlFor="exampleCheck1">Zapamiętaj mnie</label>

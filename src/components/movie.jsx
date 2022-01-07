@@ -11,7 +11,7 @@ class Movie extends Component {
         const movieStyle={
             color: "white",
             backgroundColor: "#323232",
-            height: "425px",
+            height: "380px",
             width: "200px",
             display: "inline-block",
         }
@@ -23,19 +23,18 @@ class Movie extends Component {
         }
         const movieTitle = {
             fontWeight: "bold",
+            textAlign: "center",
         }
         const movieDescription = {
-            paddingTop: "40px",
+            justifyContent: "spaceAround",
             paddingLeft: "10px",
+
         }
         return(
             <div style={movieStyle}>
-                <img style={picStyle} src={cover} className="App-logo" alt="logo" />
+                <Link to="details"><img style={picStyle} src={this.props.image} className="App-logo" alt="logo" /></Link>
                 <div style={movieDescription}>
                     <Link to="details"><h5 style={movieTitle}>{this.props.title}</h5></Link>
-                    <h6>Rok produkcji: {this.props.year}</h6>
-                    <h6>Reżyser: {this.props.director}</h6>
-                    <h6>Liczba odwiedzin: {this.props.popularity}</h6>
                 </div>
             </div>
         )
