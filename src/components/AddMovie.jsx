@@ -1,8 +1,6 @@
 import React from "react";
 import TopBar from "./top-bar";
-import Content from "./content";
 import Footer from "./Footer";
-import {Link} from "react-router-dom";
 import axios from "axios";
 
 class AddMovie extends React.Component {
@@ -20,12 +18,6 @@ class AddMovie extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
-
-
 
     handleChangeRoute = () => {
         alert("Udało się dodać Twój film!");

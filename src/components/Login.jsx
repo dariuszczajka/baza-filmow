@@ -1,7 +1,6 @@
 import React from "react";
 import TopBar from "./top-bar";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Content from "./content";
 import Footer from "./Footer";
 import {Link} from "react-router-dom";
 const axios = require('axios');

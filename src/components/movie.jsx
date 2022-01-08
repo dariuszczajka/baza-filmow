@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import SearchBar from "./search-bar";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import cover from "../cover.jpg";
 import {Link} from "react-router-dom";
 
 class Movie extends Component {
@@ -28,13 +26,13 @@ class Movie extends Component {
         const movieDescription = {
             justifyContent: "spaceAround",
             paddingLeft: "10px",
-
         }
+        const link = "details/" + this.props.id;
         return(
             <div style={movieStyle}>
-                <Link to="details"><img style={picStyle} src={this.props.image} className="App-logo" alt="logo" /></Link>
+                <Link to={link}><img style={picStyle} src={this.props.image} className="App-logo" alt="logo" /></Link>
                 <div style={movieDescription}>
-                    <Link to="details"><h5 style={movieTitle}>{this.props.title}</h5></Link>
+                    <Link to={link}><h5 style={movieTitle}>{this.props.title}</h5></Link>
                 </div>
             </div>
         )

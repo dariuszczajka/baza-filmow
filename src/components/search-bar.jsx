@@ -1,28 +1,26 @@
 import React, {Component} from 'react';
-
-import TopBar from "./top-bar.jsx";
-import searchIcon from "../search.png";
-import {FaSearch} from "react-icons/all";
-import {Button} from "bootstrap";
-
+import {withRouter} from "react-router-dom";
 
 class SearchBar extends Component {
     constructor(props) {
         super(props);
-        this.state = {value: ''};
+        this.state = {query: ''};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value});
+        this.setState({query: event.target.value});
     }
 
     handleSubmit(event) {
-        alert('Podano następujące imię: ' + this.state.value);
         event.preventDefault();
+        let link = '/details/' + this.state.query;
+        this.props.history.push(link);
+        window.location.reload()
     }
+
 
     render() {
         return (
@@ -31,10 +29,10 @@ class SearchBar extends Component {
                 flexDirection: 'row',
                 width: '30%',
             }}>
-                <input class="form-control" type="text" placeholder="Search" value={this.state.value} onChange={this.handleChange} />
-                <button className="btn btn-outline-success my-2 my-sm-0" type="submit" onClick={()=>alert('dzialam!')}>Search</button>
+                <input class="form-control" type="text" placeholder="Podaj ID" value={this.state.query} onChange={this.handleChange} />
+                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Przejdź</button>
             </form>
         );
     }
 }
-export default SearchBar;
+export default withRouter(SearchBar);

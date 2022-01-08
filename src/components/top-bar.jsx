@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import SearchBar from "./search-bar";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import logo from "../logo.png";
-import {Link} from "react-router-dom";
+import {BrowserRouter, Link} from "react-router-dom";
 import { isExpired, decodeToken  } from "react-jwt";
 
 const TopBar = () => {
@@ -19,6 +19,7 @@ const TopBar = () => {
         flexDirection: 'row',
     }
 
+
     return(
         <div>
             <nav className="navbar navbar-dark" style={{
@@ -34,7 +35,7 @@ const TopBar = () => {
                 </Link>
 
                 <SearchBar/>
-
+                
                 <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                     {isNotLogged && <li className="nav-item active" style={loginStyle}>
                         <Link to="/signin" style={links} className="nav-link" href="#">Zaloguj się</Link>

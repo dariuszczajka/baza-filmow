@@ -57,6 +57,7 @@ class Login extends React.Component {
                 password: this.state.account.password
             }
         }).then((response) => {
+            alert("Konto utworzone.");
             this.handleChangeRoute();
         }).catch((error) => {
             const errors = {};
