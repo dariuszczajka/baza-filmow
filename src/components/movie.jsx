@@ -32,7 +32,7 @@ class Movie extends Component {
             <div style={movieStyle}>
                 <Link to={link}><img style={picStyle} src={this.props.image} className="App-logo" alt="logo" /></Link>
                 <div style={movieDescription}>
-                    <Link to={link}><h5 style={movieTitle}>{this.props.title}</h5></Link>
+                    <Link to={link}><h5 style={movieTitle}>{this.props.title.length < 28 ? this.props.title : this.props.title.slice(0,28) + "..."}</h5></Link>
                 </div>
             </div>
         )
