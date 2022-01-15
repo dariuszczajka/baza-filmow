@@ -45,6 +45,13 @@ class Content extends Component {
             </div>
         ) ;
 
+        for(let i=0;i<movies.length;i++){
+            if(movies[i].title === undefined){
+                movies.splice(i,1)
+                i--;
+            }
+        }
+
         return(
             <div className="Content" style={contentStyle}>
                 {movies.map((movie) => (
